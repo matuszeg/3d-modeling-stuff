@@ -32,8 +32,8 @@ baluster_size = 32;
 /* [Rod] */
 // Diameter of the rod/dowel you will use (12.7 = 1/2 inch, 9.5 = 3/8 inch)
 rod_d = 12.7;
-// Rods per gap: 1 leaves ~40 mm openings, 2 leaves ~25 mm (kitten-proof)
-rods_per_gap = 1; // [1, 2, 3]
+// Rods per gap: 1 leaves ~40 mm openings (adult cats), 2 leaves ~20-25 mm (nothing gets through)
+rods_per_gap = 2; // [1, 2, 3]
 
 /* [Clip] */
 // How many gaps one clip spans (2 needs a bigger print bed, but stays rigid and avoids clips stacking on the same baluster)

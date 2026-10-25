@@ -1,7 +1,7 @@
 # Baluster Cat Guard
 
 Snap-on clips that hold a vertical rod in the middle of every gap between the
-loft balusters. The rod halves each gap, so a cat can no longer get its head (or
+loft balusters. The rods split each gap into narrow slots, so a cat can no longer get its head (or
 the rest of itself) through.
 
 ![assembly](images/assembly.png)
@@ -30,7 +30,7 @@ OpenSCAD, open the Customizer, and set:
 | `baluster_pitch` | Center-to-center distance between two balusters |
 | `baluster_size` | Width of the square block where the clip goes |
 | `rod_d` | Actual diameter of your rod (dowels vary) |
-| `rods_per_gap` | 1 for adult cats (~40 mm openings), 2 for kittens (~25 mm) |
+| `rods_per_gap` | 2 (default) leaves ~20-25 mm openings, 1 leaves ~40 mm |
 
 ## Printing
 
