@@ -4,6 +4,8 @@ Snap-on clips that hold a vertical rod in the middle of every gap between the
 loft balusters. The rods split each gap into narrow slots, so a cat can no longer get its head (or
 the rest of itself) through.
 
+![how it works](images/how_it_works.png)
+
 ![assembly](images/assembly.png)
 ![clip](images/clip.png)
 
