@@ -39,17 +39,25 @@ rods_per_gap = 2; // [1, 2, 3]
 // How many gaps one clip spans (2 needs a bigger print bed, but stays rigid and avoids clips stacking on the same baluster)
 gaps_per_clip = 1; // [1, 2, 3]
 // Height of the clip (print height)
-clip_h = 15;
+clip_h = 20;
 // Wall thickness of the snap rings
 wall = 2.6;
-// Thickness of the web connecting everything
-web_t = 4;
+// Thickness of the web connecting everything (this is what the dowels push against)
+web_t = 6;
 // Extra space around the baluster/rod (0 = tight, increase if it won't go on)
 clearance = 0.3;
 // Snap opening as a fraction of the round size (smaller = grips harder, harder to push on)
 round_opening = 0.80;
 // How far the lips of a square grip reach in over the corner
 square_lip = 2.2;
+
+/* [Zip tie lock] */
+// Add guide ribs so a zip tie can wrap each baluster and lock the clip on
+zip_tie = true;
+// Width of your zip ties (4.8 mm is the common "medium" size)
+zip_w = 4.8;
+// How far the guide ribs stick out
+zip_rib = 1.4;
 
 /* [Assembly preview only] */
 // Height from the top of the bottom (shoe) rail to the underside of the handrail
@@ -142,8 +150,26 @@ module clip_2d() {
     }
 }
 
+// two ribs around the outside of each baluster grip that keep a zip tie
+// centered on the clip; the tie wraps the whole baluster and closes the
+// snap opening so the clip can't be pulled off
+module zip_ribs_2d() {
+    for (x = baluster_xs(baluster_pitch, gaps_per_clip)) translate([x, 0])
+        difference() {
+            offset(delta = zip_rib) grip_body(baluster_shape, baluster_size);
+            grip_body(baluster_shape, baluster_size);
+            grip_cut(baluster_shape, baluster_size);
+        }
+}
+
 module clip(h = clip_h) {
     linear_extrude(h) clip_2d();
+    if (zip_tie && h >= zip_w + 6) {
+        rib_h = 1.6;
+        slot = zip_w + 0.6;
+        for (z = [(h - slot) / 2 - rib_h, (h + slot) / 2])
+            translate([0, 0, z]) linear_extrude(rib_h) zip_ribs_2d();
+    }
 }
 
 // ---------------------------------------------------------------- preview

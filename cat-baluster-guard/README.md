@@ -15,6 +15,11 @@ the rest of itself) through.
   has a third snap in the middle that holds the rod.
 - All snaps open toward the loft side, so you install everything from up there:
   push the clip onto the balusters, then press the rod in.
+- **Lock each clip with zip ties.** Wrap one around each baluster block and the
+  clip, between the two guide ribs; it closes the open side of the snap so the
+  clip can't be pulled off. Pushing toward the drop needs no tie: the dowels
+  press on the clip's back wall, which presses on the balusters. Snip the ties to
+  remove everything. Use 4.8 mm wide, 200 mm long ties (white or clear).
 - Use **two clips per gap**: one on the square blocks at the bottom, one on the
   square blocks at the top. The rod stands on the bottom rail.
 - Neighbouring gaps share a baluster, so set alternating clips about 20 mm higher

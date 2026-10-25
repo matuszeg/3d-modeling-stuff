@@ -89,6 +89,14 @@ for xr in (-20, 20):
     rect(TX(xr - 5.08), TY(-3), 10.16 * s2, 8 * s2, "#fafafa", stroke="none")
     a(f'<circle cx="{TX(xr):.1f}" cy="{TY(0):.1f}" r="{6.35 * s2:.1f}" fill="{ROD}" stroke="#2d6ea8" stroke-width="1.2"/>')
 
+# zip tie around each block + clip
+for Xb in (-60, 60):
+    zt = ho + 0.8
+    a(f'<rect x="{TX(Xb - zt):.1f}" y="{TY(zt):.1f}" width="{2 * zt * s2:.1f}" height="{2 * zt * s2:.1f}" fill="none" stroke="#7a3db8" stroke-width="3" stroke-dasharray="7 4" rx="3"/>')
+text(TX(60) + 20, TY(-24) + 4, "zip tie", 14, "start", "bold", "#7a3db8")
+text(TX(60) + 20, TY(-24) + 21, "closes the", 13, "start", fill="#7a3db8")
+text(TX(60) + 20, TY(-24) + 37, "opening", 13, "start", fill="#7a3db8")
+
 # install arrows (from the loft side)
 for xa in (-60, 60):
     a(f'<line x1="{TX(xa):.1f}" y1="{TY(-42):.1f}" x2="{TX(xa):.1f}" y2="{TY(-22):.1f}" stroke="{INK}" stroke-width="2.5" marker-end="url(#ah)"/>')
@@ -120,12 +128,12 @@ bullet(by + 40, "#2a8a3e", "Pushing outward (toward the drop): solid", [
     "The dowel presses on the back wall of the clip, and the back wall",
     "presses on the back of the balusters. Plastic on wood, no snap",
     "involved. Same as how the balusters already hold a cat in."])
-bullet(by + 140, "#e0a020", "Pulling inward (toward the loft): only the lips", [
-    "Unlikely for a cat. If one ever pops off, the dowel falls",
-    "onto the loft floor, not over the edge."])
+bullet(by + 140, "#7a3db8", "Pulling inward (toward the loft): zip tie", [
+    "A zip tie wraps each baluster and the clip, closing the open side.",
+    "Ribs on the clip keep it in place. Snip to remove."])
 bullet(by + 225, "#4a9be0", "Up and down", [
-    "Dowels stand on the bottom rail, so they can't drop. Clips grip by",
-    "friction; a dab of removable mounting tape keeps the top ones up."])
+    "Dowels stand on the bottom rail, so they can't drop. The zip ties",
+    "also clamp the clips so the top ones can't slide down."])
 
 # force arrows on the top view
 a(f'<line x1="{TX(20):.1f}" y1="{TY(-2):.1f}" x2="{TX(20):.1f}" y2="{TY(30):.1f}" stroke="{RED}" stroke-width="4" marker-end="url(#ahr)"/>')
