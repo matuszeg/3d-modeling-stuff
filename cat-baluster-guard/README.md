@@ -1,48 +1,57 @@
-# Baluster Cat Guard
+# Loft Cat Wall
 
-Snap-on clips that hold a vertical rod in the middle of every gap between the
-loft balusters. The rods split each gap into narrow slots, so a cat can no longer get its head (or
-the rest of itself) through.
+A 2 ft tall wall on the loft side of the balusters, so the cats can't squeeze
+through the gaps. It's built like a fence:
 
-![how it works](images/how_it_works.png)
+- a **post** in front of every baluster
+- a **U-shaped collar** wraps the back of the baluster and slides down into
+  dovetail slots in the post, closing the loop; a tug toward the loft pulls
+  straight along both arms instead of bending anything
+- a tapered **wedge** pushes the baluster back into the collar's V, so one
+  collar size grips anywhere from 16 to 28 mm thick
+- **panels** drop down between the posts; their side tongues ride in grooves
+  in the posts
 
-![assembly](images/assembly.png)
-![clip](images/clip.png)
+Everything is printed, no screws or zip ties, no supports.
 
-## How it works
+![wall concept](images/wall_concept.png)
+![collar concept](images/collar_concept.png)
 
-- Each **clip** spans one gap: it snaps onto the two neighbouring balusters and
-  has a third snap in the middle that holds the rod.
-- All snaps open toward the loft side, so you install everything from up there:
-  push the clip onto the balusters, then press the rod in.
-- **Lock each clip with zip ties.** Wrap one around each baluster block and the
-  clip, between the two guide ribs; it closes the open side of the snap so the
-  clip can't be pulled off. Pushing toward the drop needs no tie: the dowels
-  press on the clip's back wall, which presses on the balusters. Snip the ties to
-  remove everything. Use 4.8 mm wide, 200 mm long ties (white or clear).
-- Use **two clips per gap**: one on the square blocks at the bottom, one on the
-  square blocks at the top. The rod stands on the bottom rail.
-- Neighbouring gaps share a baluster, so set alternating clips about 20 mm higher
-  or lower so they don't collide (or print `gaps_per_clip = 2`).
-- Rods: 1/2" (12.7 mm) wood dowels painted white, or clear acrylic rods. Cut each
-  one a few mm shorter than the distance from the bottom rail to the handrail.
+## Railing measurements used
 
-## Measure first
-
-The defaults are guesses from a photo. Open `baluster_cat_guard.scad` in
-OpenSCAD, open the Customizer, and set:
-
-| Parameter | What to measure |
+| | |
 |---|---|
-| `baluster_pitch` | Center-to-center distance between two balusters |
-| `baluster_size` | Width of the square block where the clip goes |
-| `rod_d` | Actual diameter of your rod (dowels vary) |
-| `rods_per_gap` | 2 (default) leaves ~20-25 mm openings, 1 leaves ~40 mm |
+| Baluster center to center | 126.8 mm |
+| Square block | 31.9 mm wide, 89.6 mm tall |
+| Thinnest round part | 15.9 mm |
+| Gaps | 26, one straight run (wall at the left end, wooden post at the right) |
+| Bottom rail | sticks out more than 15 mm past the blocks on the loft side |
 
-## Printing
+## Step 1: test kit (print this first)
 
-1. Print `part = fit_test` first (4 mm tall, a few minutes). Adjust `clearance`
-   until it snaps on firmly and doesn't wobble.
-2. Print `part = clip`, flat on the bed, no supports. PETG is best (it flexes
-   without cracking). With PLA, raise `round_opening` / lower `square_lip` a bit.
-3. 3 walls, 20–30% infill is plenty.
+`stl/test_kit.stl` is one plate with a 60 mm piece of post, a collar, a wedge
+and a corner of a panel (about 95 g, roughly an hour).
+
+![test kit](images/test_kit.png)
+
+Check:
+1. Wrap the collar around a baluster above the square block and slide its ends
+   down into the post's slots. It should slide freely but not rattle.
+2. Push the wedge down between the post and the baluster. The collar should
+   pull tight. Try it on a thick spot and a thin spot.
+3. Slide the panel's tongue into a side groove of the post. It should slide
+   without forcing and not flop.
+
+Tell me what's too tight or too loose and I'll adjust the clearances
+(`slot_clr`, `groove_clr`) before the full print.
+
+## Print settings (Bambu P2S, PETG)
+
+- 0.2 mm layers, 4 walls, 30% gyroid infill
+- Print every part in the orientation it's in in the file (the post stands up,
+  the wedge lies on its side)
+
+## Still to do
+
+- Full-height post and panel sections that stack with tongue and groove
+- End pieces for the wall (left) and the wooden post (right)
