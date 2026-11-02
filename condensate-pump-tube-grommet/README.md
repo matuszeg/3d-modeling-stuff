@@ -64,8 +64,8 @@ Keep the sleeve clear of the float (`sleeve_len`; 0 removes it).
 - **v4/v5** added the flat on the motor side (v5 also widened the groove for a
   hose clamp). They fit, but only went about 2/3 of the way in: the 4 wide
   fingers were too stiff, and the single catch may sit too high for the lid.
-- **v6** (this one) has 8 narrower fingers with ratchet teeth. Not yet tested
-  on the pump.
+- **v6** (this one) has 8 narrower fingers with ratchet teeth. Printed in PETG
+  and installed: it pushes all the way in, latches, and holds the tube.
 
 ## If it doesn't fit
 
