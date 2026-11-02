@@ -111,6 +111,7 @@ about 30 s to render, and a big multi-start tap takes a couple of minutes.
 - `clay_threader.scad`: the model
 - `stl/die_28mm_short|medium|long.stl`: copies of the three originals (`turns` 0.25 / 1 / 2)
 - `stl/tap_28mm.stl`: matching tap for those dies
+- `stl/die_50mm.stl`, `stl/tap_50mm.stl`: 50 mm neck, auto pitch (4.85 mm), shrinkage off. Throw the neck at 50 mm OD and the lid opening at 46.4 mm ID
 
 ![80 mm fired, with shrinkage](images/jar_80mm_fired.png)
 
