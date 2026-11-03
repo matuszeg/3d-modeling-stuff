@@ -48,6 +48,28 @@ through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 
 Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
+## Bambu Studio plates (`3mf/`)
+
+Each file is one full plate, already laid out for the 256 mm bed. Open it,
+pick PETG, slice, print. The number in the name is how many parts are on the
+plate; the right column is how many times to print that plate.
+
+| Plate | Print it |
+|---|---|
+| `ubolts_try_one_of_each.3mf` | once, first: try them on the railing |
+| `posts_bottom_x13.3mf` | 1× |
+| `posts_middle_x13.3mf` | 1× |
+| `posts_top_x13.3mf` | 1× |
+| `panel_x1.3mf` | 36× |
+| `ubolts_bottom_x13.3mf` | 1× |
+| `ubolts_middle_x13.3mf` | 1× |
+| `ubolts_top_x13.3mf` | 1× |
+| `nuts_x78_and_wrench.3mf` | 1× |
+| `caps_x78.3mf` | 1× |
+
+Turn on a brim for the U-bolt plates. `make_3mf.py stl 3mf` rebuilds the
+plates from the STLs.
+
 ## Print settings (Bambu P2S, PETG)
 
 - 0.2 mm layers, 4 walls, 30% gyroid infill, no supports
