@@ -50,9 +50,13 @@ Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
 ## Bambu Studio plates (`3mf/`)
 
-Each file is one full plate, already laid out for the 256 mm bed. Open it,
-pick PETG, slice, print. The number in the name is how many parts are on the
-plate; the right column is how many times to print that plate.
+`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 10 plates
+below in one file. The other files are the same plates one per file, in case
+the project doesn't open the way it should.
+
+Each plate is already laid out for the 256 mm bed. The number in the name is
+how many parts are on the plate; the right column is how many times to print
+that plate.
 
 | Plate | Print it |
 |---|---|
@@ -68,7 +72,7 @@ plate; the right column is how many times to print that plate.
 | `caps_x78.3mf` | 1× |
 
 Turn on a brim for the U-bolt plates. `make_3mf.py stl 3mf` rebuilds the
-plates from the STLs.
+plates and the project from the STLs.
 
 ## Print settings (Bambu P2S, PETG)
 
