@@ -1,65 +1,68 @@
 # Loft Cat Wall
 
 A 2 ft tall wall on the loft side of the balusters, so the cats can't squeeze
-through the gaps. It's built like a fence:
+through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 
-- a slim **post** on every other baluster (13 posts), each panel spans two gaps
-- each post section has a **clamp block** with a V-notch in its back; a printed
-  **U-bolt** goes around the back of the baluster and through the block, and
-  two **nuts** pull it tight from the loft side. The baluster ends up held
-  between two V's, so it can't rock, at any thickness.
-- the nuts sit in round pockets and get covered by snap-in **caps**, so the
-  loft side is flat with nothing to catch on
-- **panels** slide into the slot between each post's front and back flanges
+![install guide](images/install_guide.png)
 
-Everything is printed: no screws, no zip ties, no supports.
+## How it works
 
-![wall concept](images/wall_concept.png)
-![hidden hardware](images/hidden_hardware.png)
+- A slim I-beam **post** stands in front of every other baluster (13 posts).
+  Each post is 3 sections of 203 mm that stack; a stub on the bottom of each
+  section drops into a recess in the top of the one below.
+- At the top of each post section is a **clamp block** with a V-notch in its
+  back. A printed **U-bolt** goes around the back of the baluster and through
+  the block, and two **nuts** pull it tight. The baluster is held between two
+  V's, so it can't rock. The clamps are all on the round part of the baluster,
+  never the square block.
+- The nuts sit at the bottom of round pockets and get covered by snap-in
+  **caps**, so the loft side is flat.
+- Each **panel** spans two gaps. Its sides sit in the slots between the
+  posts' front and back flanges, and its top corners are notched around the
+  clamp blocks.
 
-Estimated filament for the whole wall: about 5½–6 kg (panels ~3, posts ~2.2,
-U-bolts/nuts/caps ~0.5).
+## Putting up one level
 
-## Railing measurements used
+1. Stand the panels in place (on the oak for the first level, on the panels
+   below after that).
+2. Slide the post sections down from above so their slots go over the panel
+   edges.
+3. Put a U-bolt around the back of each baluster, through the clamp block, and
+   tighten both nuts with the wrench.
+4. Press in the caps. Repeat for the next level.
 
-| | |
-|---|---|
-| Baluster center to center | 126.8 mm |
-| Square block | 31.9 mm wide, 89.6 mm tall |
-| Thinnest round part | 15.9 mm |
-| Gaps | 26, one straight run (wall at the left end, wooden post at the right) |
-| Bottom rail | sticks out more than 15 mm past the blocks on the loft side |
+## Parts (whole wall, not counting the two ends)
 
-## Test kit (print this first)
+| File | Count | Notes |
+|---|---|---|
+| `stl/post_0.stl` | 13 | bottom level |
+| `stl/post_1.stl` | 13 | middle level |
+| `stl/post_2.stl` | 13 | top level |
+| `stl/panel.stl` | 36 | 250 × 202 mm, prints flat, face down |
+| `stl/ubolt_0.stl` | 13 | arm length for the bottom level |
+| `stl/ubolt_1.stl` | 13 | middle level |
+| `stl/ubolt_2.stl` | 13 | top level |
+| `stl/nut.stl` | 78 | |
+| `stl/cap.stl` | 78 | |
+| `stl/wrench.stl` | 1 | |
 
-`stl/test_kit.stl` is one plate with a short post section, a U-bolt, two nuts,
-two caps, a socket wrench and a strip of panel (about 70 g).
-
-![test kit](images/test_kit.png)
-![clamp preview](images/clamp_preview.png)
-
-Check, on a real baluster above the square block:
-1. Thread a nut onto the U-bolt by hand. It should turn smoothly without
-   wobbling.
-2. Put the U-bolt around the back of the baluster, push its arms through the
-   post's block from the back, and tighten both nuts with the wrench. The post
-   should end up solid against the baluster, with no rocking.
-3. Press a cap into a nut pocket. It should stay put but come out with a
-   fingernail.
-4. Slide the panel strip into the slot between the post's flanges. It should
-   slide without forcing and not flop.
-
-Tell me what's too tight or too loose (`thread_clr`, `panel_slot`, the cap
-size) and I'll adjust before the full print.
+Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
 ## Print settings (Bambu P2S, PETG)
 
-- 0.2 mm layers, 4 walls, 30% gyroid infill
-- Leave every part in the orientation it's in in the file: the post prints
-  with its clamp block down, the U-bolt stands on its arm ends (use a brim)
-- No supports
+- 0.2 mm layers, 4 walls, 30% gyroid infill, no supports
+- Keep each part in the orientation it's in in the file: posts print with the
+  clamp block on the bed, U-bolts stand on their arm ends (use a brim),
+  panels lie face down
+- No brim on the panels: at 250 mm they only just fit the bed
 
-## Still to do
+## Still needed
 
-- Full-height post and panel sections, and U-bolts sized for each level
-- End pieces for the wall (left) and the wooden post (right)
+- **Baluster thickness at the clamps.** The U-bolt arm lengths assume the
+  baluster is 25, 22 and 19 mm thick at 7⅜", 15⅜" and 23⅜" above the oak.
+  Measure those and set `clamp_d` before printing the U-bolts.
+- **Oak depth.** The front of the wall sits 23.5 mm in front of the square
+  blocks; the oak should stick out at least that far.
+- End pieces for the wall (left) and the wooden post (right).
+
+`stl/test_kit_v2/` holds the test kit that was printed and checked.
