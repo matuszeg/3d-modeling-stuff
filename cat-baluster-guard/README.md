@@ -50,36 +50,33 @@ Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
 ## Bambu Studio plates (`3mf/`)
 
-`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 10 plates
-below in one file. The other files are the same plates one per file, in case
-the project doesn't open the way it should.
+`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 10 plates.
+It opens with the P2S, 0.20mm Standard and PETG (filament 3) selected, with
+4 walls, 30% gyroid infill, no supports, and a brim on the U-bolts only.
+The numbered files are the same plates one per project.
 
-Each plate is already laid out for the 256 mm bed. The number in the name is
-how many parts are on the plate; the right column is how many times to print
-that plate.
+| # | Plate | Print it |
+|---|---|---|
+| 1 | One U-bolt of each level | first, and try them on the railing |
+| 2 | Posts bottom ×13 | 1× |
+| 3 | Posts middle ×13 | 1× |
+| 4 | Posts top ×13 | 1× |
+| 5 | Panel | 36× |
+| 6 | U-bolts bottom ×13 | 1× |
+| 7 | U-bolts middle ×13 | 1× |
+| 8 | U-bolts top ×13 | 1× |
+| 9 | Nuts ×78 and the wrench | 1× |
+| 10 | Caps ×78 | 1× |
 
-| Plate | Print it |
-|---|---|
-| `ubolts_try_one_of_each.3mf` | once, first: try them on the railing |
-| `posts_bottom_x13.3mf` | 1× |
-| `posts_middle_x13.3mf` | 1× |
-| `posts_top_x13.3mf` | 1× |
-| `panel_x1.3mf` | 36× |
-| `ubolts_bottom_x13.3mf` | 1× |
-| `ubolts_middle_x13.3mf` | 1× |
-| `ubolts_top_x13.3mf` | 1× |
-| `nuts_x78_and_wrench.3mf` | 1× |
-| `caps_x78.3mf` | 1× |
-
-Turn on a brim for the U-bolt plates. `make_3mf.py stl 3mf` rebuilds the
-plates and the project from the STLs.
+Rebuild them with `python3 cat-baluster-guard/make_3mf.py` (uses
+`tools/bambu_project.py`).
 
 ## Print settings (Bambu P2S, PETG)
 
+Already set in the 3MF projects:
 - 0.2 mm layers, 4 walls, 30% gyroid infill, no supports
-- Keep each part in the orientation it's in in the file: posts print with the
-  clamp block on the bed, U-bolts stand on their arm ends (use a brim),
-  panels lie face down
+- Posts print with the clamp block on the bed, U-bolts stand on their arm
+  ends with a brim, panels lie face down
 - No brim on the panels: at 250 mm they only just fit the bed
 
 ## Still needed
