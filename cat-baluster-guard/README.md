@@ -4,6 +4,7 @@ A 2 ft tall wall on the loft side of the balusters, so the cats can't squeeze
 through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 
 ![install guide](images/install_guide.png)
+![how it connects](images/how_it_connects.png)
 
 ## How it works
 
@@ -20,6 +21,10 @@ through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 - Each **panel** spans two gaps. Its sides sit in the slots between the
   posts' front and back flanges, and its top corners are notched around the
   clamp blocks.
+- Rows of panels lock together: a V-ridge along each panel's top edge fits a
+  V-groove along the bottom edge of the panel above. So the panels come in
+  three kinds: bottom row (ridge only), middle row (both), top row (groove
+  only).
 
 ## Putting up one level
 
@@ -38,7 +43,9 @@ through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 | `stl/post_0.stl` | 13 | bottom level |
 | `stl/post_1.stl` | 13 | middle level |
 | `stl/post_2.stl` | 13 | top level |
-| `stl/panel.stl` | 36 | 250 × 202 mm, prints flat, face down |
+| `stl/panel_0.stl` | 12 | bottom row, 250 × 203 mm, prints flat, face down |
+| `stl/panel_1.stl` | 12 | middle row |
+| `stl/panel_2.stl` | 12 | top row |
 | `stl/ubolt_0.stl` | 13 | arm length for the bottom level |
 | `stl/ubolt_1.stl` | 13 | middle level |
 | `stl/ubolt_2.stl` | 13 | top level |
@@ -50,7 +57,7 @@ Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
 ## Bambu Studio plates (`3mf/`)
 
-`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 10 plates.
+`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 12 plates.
 It opens with the P2S, 0.20mm Standard and PETG (filament 3) selected, with
 4 walls, 30% gyroid infill, no supports, and a brim on the U-bolts only.
 The numbered files are the same plates one per project.
@@ -61,12 +68,14 @@ The numbered files are the same plates one per project.
 | 2 | Posts bottom ×13 | 1× |
 | 3 | Posts middle ×13 | 1× |
 | 4 | Posts top ×13 | 1× |
-| 5 | Panel | 36× |
-| 6 | U-bolts bottom ×13 | 1× |
-| 7 | U-bolts middle ×13 | 1× |
-| 8 | U-bolts top ×13 | 1× |
-| 9 | Nuts ×78 and the wrench | 1× |
-| 10 | Caps ×78 | 1× |
+| 5 | Panel, bottom row | 12× |
+| 6 | Panel, middle row | 12× |
+| 7 | Panel, top row | 12× |
+| 8 | U-bolts bottom ×13 | 1× |
+| 9 | U-bolts middle ×13 | 1× |
+| 10 | U-bolts top ×13 | 1× |
+| 11 | Nuts ×78 and the wrench | 1× |
+| 12 | Caps ×78 | 1× |
 
 Rebuild them with `python3 cat-baluster-guard/make_3mf.py` (uses
 `tools/bambu_project.py`).

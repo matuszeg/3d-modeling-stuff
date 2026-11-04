@@ -41,8 +41,9 @@ def plates():
         w, d = footprint(P(f"post_{i}"))
         out.append({"name": f"Posts {lv} x13", "objects": [
             {"stl": P(f"post_{i}"), "name": f"post_{lv}", "positions": grid(13, w, d, 10)}]})
-    out.append({"name": "Panel (print 36 times)", "objects": [
-        {"stl": P("panel"), "name": "panel", "positions": [(BED / 2, BED / 2)]}]})
+    for i, lv in enumerate(LEVELS):
+        out.append({"name": f"Panel {lv} row (print 12 times)", "objects": [
+            {"stl": P(f"panel_{i}"), "name": f"panel_{lv}", "positions": [(BED / 2, BED / 2)]}]})
     for i, lv in enumerate(LEVELS):
         w, d = footprint(P(f"ubolt_{i}"))
         out.append({"name": f"U-bolts {lv} x13", "objects": [
@@ -67,6 +68,6 @@ if __name__ == "__main__":
     pl = plates()
     write_project(os.path.join(OUT, "loft_cat_wall_all_plates.3mf"), pl, SETTINGS, PETG_SLOT, title="Loft Cat Wall")
     for i, p in enumerate(pl):
-        slug = p["name"].lower().replace(" (print 36 times)", "_print_36x").replace(" ", "_").replace("-", "")
+        slug = p["name"].lower().replace(" (print 12 times)", "_print_12x").replace(" ", "_").replace("-", "")
         write_project(os.path.join(OUT, f"{i + 1:02d}_{slug}.3mf"), [p], SETTINGS, PETG_SLOT, title=p["name"])
     print("wrote", len(pl), "plates")

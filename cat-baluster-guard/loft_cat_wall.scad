@@ -20,7 +20,7 @@
 // Everything prints with no supports. PETG recommended. All sizes in mm.
 
 /* [What to render] */
-part = "assembly"; // [assembly, post_0, post_1, post_2, ubolt_0, ubolt_1, ubolt_2, panel, nut, cap, wrench, test_kit, test_post, test_ubolt, test_panel, preview]
+part = "assembly"; // [assembly, post_0, post_1, post_2, ubolt_0, ubolt_1, ubolt_2, panel_0, panel_1, panel_2, nut, cap, wrench, test_kit, test_post, test_ubolt, test_panel, preview]
 // for the assembly view: how far along the install to show (1-4), and how many levels
 step = 4;
 show_levels = 3;
@@ -69,6 +69,12 @@ panel_skin = 0.8;
 panel_rim = 4;
 panel_edge = 15;         // full-thickness strip along the sides that sits in the post slots
 panel_rib = 3;
+// rows of panels lock together: a V-ridge along each top edge fits a V-groove
+// along the bottom edge of the panel above (45-degree sides print without support)
+ridge_h = 1.5;
+ridge_z = [1, 4];        // where the ridge's base sits across the thickness
+groove_clr = 0.2;
+panel_gap = 0.3;         // between rows
 
 /* [Hidden] */
 $fn = 64;
@@ -81,7 +87,7 @@ v_apex_y = post_back_y - v_depth;
 nut_ac = nut_af / cos(30);
 panel_front_y = post_front_y + flange_t + 0.2;
 panel_w = 2 * baluster_pitch - web_t - 0.6;
-panel_h = level_h - 1.2;
+panel_h = level_h - panel_gap;
 
 // where the baluster sits for a given diameter, and the U-bolt arm length that
 // lands the arm ends at arm_end_y
@@ -198,28 +204,42 @@ module wrench() {
 // panel spanning two gaps, lying as it prints: loft face down on the bed.
 // The sides are full thickness where they sit in the post slots, and the top
 // corners are notched to clear the clamp blocks.
-module panel() {
+module panel(ridge = true, groove = true) {
     w = panel_w; h = panel_h;
     nw = block_w / 2 - web_t / 2 - 0.3 + 0.5;
-    nh = block_h + 0.5;
+    nh = block_h + 1;
     module outline() difference() {
         square([w, h]);
         for (x = [-1, w - nw]) translate([x, h - nh]) square([nw + 1, nh + 1]);
     }
-    intersection() {
-        linear_extrude(panel_t) outline();
+    zm = (ridge_z[0] + ridge_z[1]) / 2;
+    difference() {
         union() {
-            cube([w, h, panel_skin]);
-            linear_extrude(panel_t) difference() { outline(); offset(delta = -panel_rim) outline(); }
-            for (x = [0, w - panel_edge]) translate([x, 0, 0]) cube([panel_edge, h, panel_t]);
-            for (f = [1/3, 2/3]) translate([0, h * f - 2, 0]) cube([w, 4, panel_rib]);
-            translate([w / 2 - 2, 0, 0]) cube([4, h, panel_rib]);
+            intersection() {
+                linear_extrude(panel_t) outline();
+                union() {
+                    cube([w, h, panel_skin]);
+                    linear_extrude(panel_t) difference() { outline(); offset(delta = -panel_rim) outline(); }
+                    for (x = [0, w - panel_edge]) translate([x, 0, 0]) cube([panel_edge, h, panel_t]);
+                    for (f = [1/3, 2/3]) translate([0, h * f - 2, 0]) cube([w, 4, panel_rib]);
+                    translate([w / 2 - 2, 0, 0]) cube([4, h, panel_rib]);
+                }
+            }
+            // ridge along the top edge, between the corner notches
+            if (ridge) translate([nw, 0, 0]) rotate([90, 0, 90]) linear_extrude(w - 2 * nw)
+                polygon([[h - eps, ridge_z[0]], [h + ridge_h, zm], [h - eps, ridge_z[1]]]);
         }
+        // groove along the bottom edge
+        if (groove) translate([-1, 0, 0]) rotate([90, 0, 90]) linear_extrude(w + 2)
+            polygon([[-eps, ridge_z[0] - groove_clr], [ridge_h + groove_clr, zm], [-eps, ridge_z[1] + groove_clr]]);
     }
 }
 
+// the panel for each row: bottom row has only a ridge, top row only a groove
+module panel_level(l) panel(ridge = l < levels - 1, groove = l > 0);
+
 // the panel standing in the wall: left edge at x0, bottom at z0
-module panel_in_wall() translate([0, panel_front_y, 0]) rotate([90, 0, 0]) mirror([0, 0, 1]) panel();
+module panel_in_wall(l = 1) translate([0, panel_front_y, 0]) rotate([90, 0, 0]) mirror([0, 0, 1]) panel_level(l);
 
 // an edge strip of a panel to try in the post's slot
 module test_panel(w = 40, h = 50) cube([w, h, panel_t]);
@@ -264,7 +284,7 @@ module section_assembly(step = 4, nlev = 3, lift = 120) {
         top = l == nlev - 1;
         st = top ? step : 4;
         z0 = l * level_h;
-        color("LightSteelBlue") translate([web_t / 2 + 0.3, 0, z0 + 0.6]) panel_in_wall();
+        color("LightSteelBlue") translate([web_t / 2 + 0.3, 0, z0 + panel_gap / 2]) panel_in_wall(l);
         if (st >= 2) for (x = [0, 2 * baluster_pitch]) translate([x, 0, z0]) color("SteelBlue") post_level(l);
         if (st == 1) for (x = [0, 2 * baluster_pitch]) translate([x, 0, z0 + lift]) color("SteelBlue", 0.35) post_level(l);
         if (st >= 3) for (x = [0, 2 * baluster_pitch]) translate([x, 0, 0]) clamp_hardware(l, st >= 4);
@@ -295,7 +315,9 @@ else if (part == "post_2") post_level_print(2);
 else if (part == "ubolt_0") ubolt(arm_len_for(clamp_d[0]));
 else if (part == "ubolt_1") ubolt(arm_len_for(clamp_d[1]));
 else if (part == "ubolt_2") ubolt(arm_len_for(clamp_d[2]));
-else if (part == "panel") panel();
+else if (part == "panel_0") panel_level(0);
+else if (part == "panel_1") panel_level(1);
+else if (part == "panel_2") panel_level(2);
 else if (part == "test_ubolt") ubolt(test_arm_len);
 else if (part == "test_kit") test_kit();
 else if (part == "test_post") post_section_print(test_post_h);
