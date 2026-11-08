@@ -1,13 +1,17 @@
 // Baby gate handle: a replacement for the D-shaped handle on the end bar of a
 // roll-up mesh baby gate. The loop hooks into the clip on the wall.
 //
-// Install: slide the collar down over the top of the gate bar, move it to where
-// the wall clip is, then drive a screw through the boss on the front so its tip
-// bites the bar (or goes into the bar's existing hole, if there is one).
+// The collar is a split clamp: a slot runs down the front, with a clamp rib on
+// either side of it. Two M3 screws go across the slot into nuts held in hex
+// pockets; tightening them closes the slot and squeezes the bar all the way around.
+//
+// Install: drop an M3 nut into each hex pocket, slide the collar down over the top
+// of the gate bar to where the wall clip is, put the screws in from the other side
+// and tighten them evenly until it won't slide.
 //
 // Prints with NO supports: standing up, the way it sits on the gate. The bore is
-// vertical, the top of the loop opening is a short bridge, and the screw boss has
-// a 45-degree underside.
+// vertical, the top of the loop opening is a short bridge, and the hex pockets have
+// a point at the top.
 //
 // Axes: Z = up along the gate bar, X = across the gate (the loop sticks out
 // toward -X, the mesh goes off toward +X), Y = front to back.
@@ -23,17 +27,18 @@ clip_w    = 10.6;   // clip bar, the way the loop sticks out
 clip_t    = 9.5;    // clip bar (and the arms), front to back
 
 // ---- Fit ----
-bar_clear = 0.5;    // bore is this much bigger than the bar each way (slide fit)
-wall      = 2.5;    // collar wall around the bar (20.4 x 15 outside)
+bar_clear = 0.3;    // bore is this much bigger than the bar each way (slides on loose,
+                    // the clamp takes up the gap)
+wall      = 2.5;    // collar wall around the bar
 
-// ---- Screw ----
-// Default suits a #4 / M3 self-tapping screw biting into the plastic. For a #6 or
-// M3.5 use 2.8; for a machine screw that only passes through, use its size + 0.3.
-screw_pilot  = 2.5;
-screw_z      = 25.5; // hole height above the bottom of the collar (original: ~25.5)
-boss_d       = 9;    // the boss gives the screw 6.5 mm of plastic to thread into
-boss_h       = 4;    // how far the boss sticks out from the front of the collar
-screw_side   = -1;   // -1 = front (-Y), 1 = back (+Y)
+// ---- Clamp (M3 machine screws + nuts, 14-16 mm long) ----
+slot_w    = 2.5;    // the split down the front; tightening can close it this much
+rib_w     = 6;      // width of each clamp rib (the screw passes through both)
+rib_out   = 9.5;    // how far the ribs stick out from the front of the collar
+screw_zs  = [12, 57]; // screw heights above the bottom of the collar
+screw_d   = 3.4;    // M3 clearance hole
+nut_flats = 5.5 + 0.3; // M3 nut is 5.5 across flats; + clearance so it drops in
+nut_depth = 3;      // pocket depth (the nut is 2.4 thick, so it sits a bit below the face)
 
 // ---- Shape ----
 collar_r  = 2;      // vertical corner rounding of the collar
@@ -96,15 +101,29 @@ module collar_body() {
         translate([-col_w/2, -col_t/2]) rrect(col_w, col_t, collar_r);
 }
 
-module boss() {
-    // round boss with a 45-degree "teardrop" underside so it prints without support
-    translate([0, screw_side*col_t/2, screw_z])
-    rotate([screw_side*-90, 0, 0])
-    linear_extrude(boss_h)
-        hull() {
-            circle(d=boss_d);
-            translate([0, screw_side*boss_d/2*sqrt(2)]) circle(d=0.1);
-        }
+rib_x = slot_w/2 + rib_w;                   // outer faces of the clamp ribs (+/-)
+screw_y = -(col_t/2 + rib_out/2 + 0.25);    // screw axis, front to back
+
+module clamp_ribs() {
+    // one block across the front; the slot splits it into two ribs
+    linear_extrude(collar_h)
+        translate([-rib_x, -(col_t/2 + rib_out)])
+        rrect(2*rib_x, rib_out + col_t/2, 2);
+}
+
+module slot() {
+    translate([-slot_w/2, -(col_t/2 + rib_out + 1), -eps])
+        cube([slot_w, col_t/2 + rib_out + 1, collar_h + 2*eps]);
+}
+
+module clamp_holes() {
+    for (z = screw_zs) translate([0, screw_y, z]) {
+        // screw hole straight through both ribs
+        rotate([0, 90, 0]) cylinder(d=screw_d, h=2*rib_x + 2, center=true, $fn=24);
+        // hex nut pocket in the +X rib, point up so its top prints without support
+        translate([rib_x - nut_depth, 0, 0]) rotate([0, 90, 0])
+            cylinder(d=nut_flats/cos(30), h=nut_depth + 1, $fn=6);
+    }
 }
 
 module bore() {
@@ -117,21 +136,16 @@ module bore() {
             stadium(bore_w + 2*lead_in, bore_t + 2*lead_in);
 }
 
-module screw_hole() {
-    // only through the boss side, from outside the boss into the bore
-    translate([0, 0, screw_z]) rotate([screw_side*-90, 0, 0])
-        cylinder(d=screw_pilot, h=col_t/2 + boss_h + 1, $fn=24);
-}
-
 module handle() {
     difference() {
         union() {
             collar_body();
             loop();
-            boss();
+            clamp_ribs();
         }
         bore();
-        screw_hole();
+        slot();
+        clamp_holes();
     }
 }
 
