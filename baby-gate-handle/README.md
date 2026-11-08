@@ -32,7 +32,7 @@ screws. The loop hooks into the clip on the wall, like the original handle.
 ![dimension diagram](images/dimensions.png)
 
 Changes from the original:
-- The collar is 20.6 × 15.6 outside (2.5 mm walls), plus the clamp ribs on the
+- The collar is 21 × 15.6 outside (2.5 mm walls), plus the clamp ribs on the
   front, which stick out 9.5 mm.
 - The loop sits flush with the bottom of the collar instead of 1.5 mm up, so it
   prints on the bed without supports (`loop_lift`).
