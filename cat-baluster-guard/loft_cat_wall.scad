@@ -204,13 +204,16 @@ module wrench() {
 // panel spanning two gaps, lying as it prints: loft face down on the bed.
 // The sides are full thickness where they sit in the post slots, and the top
 // corners are notched to clear the clamp blocks.
-module panel(ridge = true, groove = true) {
+// notch_l / notch_r: which top corners get a notch (the end panels at the
+// wall and the wooden post only need one, on the post side)
+module panel(ridge = true, groove = true, notch_l = true, notch_r = true) {
     w = panel_w; h = panel_h;
     nw = block_w / 2 - web_t / 2 - 0.3 + 0.5;
     nh = block_h + 1;
     module outline() difference() {
         square([w, h]);
-        for (x = [-1, w - nw]) translate([x, h - nh]) square([nw + 1, nh + 1]);
+        if (notch_l) translate([-1, h - nh]) square([nw + 1, nh + 1]);
+        if (notch_r) translate([w - nw, h - nh]) square([nw + 1, nh + 1]);
     }
     zm = (ridge_z[0] + ridge_z[1]) / 2;
     difference() {
@@ -226,7 +229,9 @@ module panel(ridge = true, groove = true) {
                 }
             }
             // ridge along the top edge, between the corner notches
-            if (ridge) translate([nw, 0, 0]) rotate([90, 0, 90]) linear_extrude(w - 2 * nw)
+            rl = notch_l ? nw : 0;
+            rr = notch_r ? nw : 0;
+            if (ridge) translate([rl, 0, 0]) rotate([90, 0, 90]) linear_extrude(w - rl - rr)
                 polygon([[h - eps, ridge_z[0]], [h + ridge_h, zm], [h - eps, ridge_z[1]]]);
         }
         // groove along the bottom edge
@@ -237,6 +242,8 @@ module panel(ridge = true, groove = true) {
 
 // the panel for each row: bottom row has only a ridge, top row only a groove
 module panel_level(l) panel(ridge = l < levels - 1, groove = l > 0);
+// end panels: "left" is the wall end (post on its right), "right" the wooden-post end
+module panel_end(l, side) panel(ridge = l < levels - 1, groove = l > 0, notch_l = side == "right", notch_r = side == "left");
 
 // the panel standing in the wall: left edge at x0, bottom at z0
 module panel_in_wall(l = 1) translate([0, panel_front_y, 0]) rotate([90, 0, 0]) mirror([0, 0, 1]) panel_level(l);
@@ -318,6 +325,12 @@ else if (part == "ubolt_2") ubolt(arm_len_for(clamp_d[2]));
 else if (part == "panel_0") panel_level(0);
 else if (part == "panel_1") panel_level(1);
 else if (part == "panel_2") panel_level(2);
+else if (part == "panel_end_left_0") panel_end(0, "left");
+else if (part == "panel_end_left_1") panel_end(1, "left");
+else if (part == "panel_end_left_2") panel_end(2, "left");
+else if (part == "panel_end_right_0") panel_end(0, "right");
+else if (part == "panel_end_right_1") panel_end(1, "right");
+else if (part == "panel_end_right_2") panel_end(2, "right");
 else if (part == "test_ubolt") ubolt(test_arm_len);
 else if (part == "test_kit") test_kit();
 else if (part == "test_post") post_section_print(test_post_h);

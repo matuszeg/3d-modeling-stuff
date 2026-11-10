@@ -44,6 +44,11 @@ def plates():
     for i, lv in enumerate(LEVELS):
         out.append({"name": f"Panel {lv} row (print 12 times)", "objects": [
             {"stl": P(f"panel_{i}"), "name": f"panel_{lv}", "positions": [(BED / 2, BED / 2)]}]})
+    # the two ends of each row: one notch, on the post side
+    for i, lv in enumerate(LEVELS):
+        for side, where in (("left", "wall end"), ("right", "wooden post end")):
+            out.append({"name": f"End panel {lv} row, {where}", "objects": [
+                {"stl": P(f"panel_end_{side}_{i}"), "name": f"panel_end_{side}_{lv}", "positions": [(BED / 2, BED / 2)]}]})
     for i, lv in enumerate(LEVELS):
         w, d = footprint(P(f"ubolt_{i}"))
         out.append({"name": f"U-bolts {lv} x13", "objects": [
@@ -67,7 +72,9 @@ if __name__ == "__main__":
             os.remove(os.path.join(OUT, f))
     pl = plates()
     write_project(os.path.join(OUT, "loft_cat_wall_all_plates.3mf"), pl, SETTINGS, PETG_SLOT, title="Loft Cat Wall")
+    ends = [p for p in pl if p["name"].startswith("End panel")]
+    write_project(os.path.join(OUT, "loft_cat_wall_end_panels.3mf"), ends, SETTINGS, PETG_SLOT, title="Loft Cat Wall end panels")
     for i, p in enumerate(pl):
-        slug = p["name"].lower().replace(" (print 12 times)", "_print_12x").replace(" ", "_").replace("-", "")
+        slug = p["name"].lower().replace(" (print 12 times)", "_print_12x").replace(",", "").replace(" ", "_").replace("-", "")
         write_project(os.path.join(OUT, f"{i + 1:02d}_{slug}.3mf"), [p], SETTINGS, PETG_SLOT, title=p["name"])
     print("wrote", len(pl), "plates")

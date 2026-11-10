@@ -5,6 +5,8 @@ through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 
 ![install guide](images/install_guide.png)
 ![how it connects](images/how_it_connects.png)
+![panel rows](images/panel_rows.png)
+![end panels](images/end_panels.png)
 
 ## How it works
 
@@ -46,6 +48,8 @@ through the gaps. All renders below come from `loft_cat_wall.scad` itself.
 | `stl/panel_0.stl` | 12 | bottom row, 250 × 203 mm, prints flat, face down |
 | `stl/panel_1.stl` | 12 | middle row |
 | `stl/panel_2.stl` | 12 | top row |
+| `stl/panel_end_left_0/1/2.stl` | 1 each | wall end of each row, notch on the right only |
+| `stl/panel_end_right_0/1/2.stl` | 1 each | wooden-post end of each row, notch on the left only |
 | `stl/ubolt_0.stl` | 13 | arm length for the bottom level |
 | `stl/ubolt_1.stl` | 13 | middle level |
 | `stl/ubolt_2.stl` | 13 | top level |
@@ -57,7 +61,7 @@ Roughly 6 kg of PETG in total (panels ~3.4, posts ~2, the rest ~0.6).
 
 ## Bambu Studio plates (`3mf/`)
 
-`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 12 plates.
+`loft_cat_wall_all_plates.3mf` is a Bambu Studio project with all 18 plates.
 It opens with the P2S, 0.20mm Standard and PETG (filament 3) selected, with
 4 walls, 30% gyroid infill, no supports, and a brim on the U-bolts only.
 The numbered files are the same plates one per project.
@@ -65,17 +69,14 @@ The numbered files are the same plates one per project.
 | # | Plate | Print it |
 |---|---|---|
 | 1 | One U-bolt of each level | first, and try them on the railing |
-| 2 | Posts bottom ×13 | 1× |
-| 3 | Posts middle ×13 | 1× |
-| 4 | Posts top ×13 | 1× |
-| 5 | Panel, bottom row | 12× |
-| 6 | Panel, middle row | 12× |
-| 7 | Panel, top row | 12× |
-| 8 | U-bolts bottom ×13 | 1× |
-| 9 | U-bolts middle ×13 | 1× |
-| 10 | U-bolts top ×13 | 1× |
-| 11 | Nuts ×78 and the wrench | 1× |
-| 12 | Caps ×78 | 1× |
+| 2-4 | Posts bottom / middle / top ×13 | 1× each |
+| 5-7 | Panel, bottom / middle / top row | 12× each |
+| 8-13 | End panels: each row, wall end and wooden-post end | 1× each |
+| 14-16 | U-bolts bottom / middle / top ×13 | 1× each |
+| 17 | Nuts ×78 and the wrench | 1× |
+| 18 | Caps ×78 | 1× |
+
+`loft_cat_wall_end_panels.3mf` holds just the six end panels.
 
 Rebuild them with `python3 cat-baluster-guard/make_3mf.py` (uses
 `tools/bambu_project.py`).
