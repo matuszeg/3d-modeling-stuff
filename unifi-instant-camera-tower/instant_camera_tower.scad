@@ -34,6 +34,9 @@ base_slope = 30;    // degrees; the base rises from the rim to the column at thi
 col_d     = 34;
 pad_d     = 62;
 pad_t     = 8;
+// ballast = false gives a solid bottom: no wells, no lid needed, and four shallow
+// pockets for stick-on rubber feet right on the tower's underside.
+ballast   = true;
 // Ballast wells, open underneath, closed by the lid. Fill with steel BBs, sand,
 // coins (pennies stack in them), or fishing weights.
 well_d    = 25;     // a US quarter is 24.3 mm
@@ -122,8 +125,12 @@ module tower() {
             translate([0, 0, col_top]) cylinder(r1 = col_r, r2 = pad_r, h = flare_h + eps);
             translate([0, 0, col_top + flare_h]) cylinder(r = pad_r, h = pad_t);
         }
-        wells();
-        screw_points() translate([0, 0, -eps]) cylinder(d = screw_pilot, h = 12);
+        if (ballast) {
+            wells();
+            screw_points() translate([0, 0, -eps]) cylinder(d = screw_pilot, h = 12);
+        } else {
+            feet_pockets();
+        }
         cable_channel();
         // small chamfer on the rim so it doesn't elephant-foot
         translate([0, 0, -eps]) difference() {
@@ -138,6 +145,12 @@ module tower() {
     }
 }
 
+// four shallow pockets for stick-on rubber feet
+module feet_pockets() {
+    for (a = [45, 135, 225, 315]) rotate(a) translate([base_r - 14, 0, -eps])
+        cylinder(d = 13, h = 0.6);
+}
+
 module lid() {
     difference() {
         cylinder(r = base_r - 0.3, h = lid_t);
@@ -146,9 +159,7 @@ module lid() {
             // countersink on the floor side (the bed side when printed)
             translate([0, 0, -eps]) cylinder(d1 = screw_head, d2 = screw_clear, h = (screw_head - screw_clear)/2);
         }
-        // four shallow pockets for stick-on rubber feet
-        for (a = [45, 135, 225, 315]) rotate(a) translate([base_r - 14, 0, -eps])
-            cylinder(d = 13, h = 0.6);
+        feet_pockets();
     }
 }
 

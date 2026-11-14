@@ -27,8 +27,20 @@ How it works:
 |---|---|
 | `stl/tower_G4.stl` | tower for the G4 Instant (pad top at 82 mm) |
 | `stl/tower_G3.stl` | tower for the G3 Instant (pad top at 90 mm, it's a shorter camera) |
-| `stl/lid.stl` | ballast lid, same for both |
+| `stl/tower_G4_solid.stl` | G4 tower with a solid bottom: no ballast, no lid |
+| `stl/tower_G3_solid.stl` | G3 tower with a solid bottom: no ballast, no lid |
+| `stl/lid.stl` | ballast lid, same for both (only for the non-solid towers) |
 | `instant_camera_tower.scad` | the source; every size is a parameter at the top |
+
+### Solid-bottom version
+
+If you'd rather not deal with ballast and a lid, print a `_solid` tower. Its
+underside is flat, with four shallow pockets for stick-on rubber feet. It's
+lighter (the print alone, about 150–200 g), so it's easier to push around. Bump
+the infill to 30–40% if you want more weight. In the `.scad`, this is
+`ballast = false`.
+
+![solid underside](images/underside_solid.png)
 
 ## Measure before printing
 
