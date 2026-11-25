@@ -27,15 +27,19 @@ clip_w    = 10.6;   // clip bar, the way the loop sticks out
 clip_t    = 9.5;    // clip bar (and the arms), front to back
 
 // ---- Fit ----
-bar_clear = 0.3;    // bore is this much bigger than the bar each way (slides on loose,
-                    // the clamp takes up the gap)
+bar_clear = 0.25;   // bore is this much bigger than the bar each way, so it slides on
+grip_h    = 0.3;    // grip ridges stick in this far from the bore wall, so they
+                    // just touch the bar; tightening presses them into it
+grip_pitch = 4;     // spacing of the grip ridges up the bore
 wall      = 2.5;    // collar wall around the bar
 
 // ---- Clamp (M3 machine screws + nuts, 14-16 mm long) ----
-slot_w    = 2.5;    // the split down the front; tightening can close it this much
+slot_w    = 3.5;    // the split down the front; tightening can close it this much
 rib_w     = 6;      // width of each clamp rib (the screw passes through both)
 rib_out   = 9.5;    // how far the ribs stick out from the front of the collar
-screw_zs  = [12, 57]; // screw heights above the bottom of the collar
+screw_zs  = [10, 34.5, 59]; // screw heights above the bottom of the collar
+hinge_depth = 1.0;  // groove down the back, opposite the slot, so the collar bends
+                    // there and the screws' force goes into squeezing the bar
 screw_d   = 3.4;    // M3 clearance hole
 nut_flats = 5.5 + 0.3; // M3 nut is 5.5 across flats; + clearance so it drops in
 nut_depth = 3;      // pocket depth (the nut is 2.4 thick, so it sits a bit below the face)
@@ -136,16 +140,45 @@ module bore() {
             stadium(bore_w + 2*lead_in, bore_t + 2*lead_in);
 }
 
+// Horizontal ridges around the inside of the bore: they stop the handle sliding
+// up and down. Each has 45-degree faces, so they print without support.
+module grip_ridges() {
+    z_first = lead_in + 2;
+    for (z = [z_first : grip_pitch : collar_h - lead_in - 2 - grip_h*2]) translate([0, 0, z])
+        difference() {
+            linear_extrude(2*grip_h) stadium(bore_w + 0.2, bore_t + 0.2);
+            for (m = [0, 1]) translate([0, 0, m*2*grip_h]) mirror([0, 0, m])
+                hull() {
+                    translate([0, 0, -eps]) linear_extrude(eps) stadium(bore_w, bore_t);
+                    translate([0, 0, grip_h]) linear_extrude(eps)
+                        stadium(bore_w - 2*grip_h, bore_t - 2*grip_h);
+                }
+        }
+}
+
+module hinge_groove() {
+    // a V with 45-degree sides: wide at the outside, point at hinge_depth
+    translate([0, col_t/2, -eps]) linear_extrude(collar_h + 2*eps)
+        polygon([[-hinge_depth - 0.6, eps], [hinge_depth + 0.6, eps], [0.6, -hinge_depth],
+                 [-0.6, -hinge_depth]]);
+}
+
 module handle() {
     difference() {
         union() {
-            collar_body();
-            loop();
-            clamp_ribs();
+            difference() {
+                union() {
+                    collar_body();
+                    loop();
+                    clamp_ribs();
+                }
+                bore();
+            }
+            grip_ridges();
         }
-        bore();
         slot();
         clamp_holes();
+        hinge_groove();
     }
 }
 
