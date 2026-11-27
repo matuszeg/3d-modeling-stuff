@@ -6,7 +6,7 @@ made from. Cut a circle around the tree for a coaster, spoon rest or dish.
 
 ![roller](images/roller_angle.png)
 
-The tree and swirls stand up from the roller as ridges, so in the clay they come
+The tree stands up from the roller as ridges, so in the clay it comes
 out as **grooves**. That's where a glaze like the green one pools dark, so the
 tree shows up dark on a lighter background. This is what one roll looks like in
 the clay:
