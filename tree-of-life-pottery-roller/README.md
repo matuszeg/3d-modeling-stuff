@@ -1,9 +1,8 @@
 # Tree Pottery Roller
 
 A texture roller for clay. Roll it once across a slab and it presses in a bare,
-branching tree with spreading roots, on a background of little swirls: the same
-look as the green tree coaster it was made from. Cut a circle around the tree
-for a coaster, spoon rest or dish.
+branching tree on a plain background, like the tree on the green coaster it was
+made from. Cut a circle around the tree for a coaster, spoon rest or dish.
 
 ![roller](images/roller_angle.png)
 
@@ -18,9 +17,9 @@ the clay:
   of clay per turn on the default 45 mm roller)
 - it's mirrored on the roller, so the tree in the clay faces the way the
   preview shows
-- the swirls wrap all the way round and meet without a seam. Near the tree they
-  shrink to fit between the branches, or are left out, so nothing gets cut into
-  odd little dashes
+- roots and a swirl background are built in but off by default
+  (`root_count`, `swirls`). With swirls on, they wrap round without a seam and
+  shrink to fit between the branches instead of being cut into dashes
 - the ridges are stepped (narrower on top) so the clay lets go cleanly, and the
   thinnest twigs only reach the first step, so they press shallower, like a
   carved line
@@ -36,8 +35,7 @@ for a different tree.
 
 | File | What |
 |---|---|
-| `tree_roller.stl` | Tree and swirls. 46.6 mm across the ridges × 100 mm long |
-| `tree_roller_no_swirls.stl` | Tree only, plain background |
+| `tree_roller.stl` | Tree only, no roots or swirls. 48.2 mm across the ridges × 100 mm long |
 
 ## Print settings (PLA)
 
@@ -68,9 +66,9 @@ release takes far longer.
 - `tree_seed`: a different tree each number
 - `tree_height`, `tree_width`, `trunk_width`, `trunk_share` (how much is bare
   trunk), `main_limbs`, `branch_levels` (more = finer twigs), `root_count`,
-  `wiggle` (how crooked)
+  `wiggle` (how crooked). `root_count` is 0 (no roots); try 7 for spreading roots
 - `smallest_line`: thinnest twig. Below about 1 mm won't print or press cleanly
-- `swirls` on/off, `swirl_size`, `swirl_line`, `swirl_gap`
+- `swirls` on/off (off by default), `swirl_size`, `swirl_line`, `swirl_gap`
 - `relief_height` (tree groove depth), `swirl_height`
 - `roller_diameter`, `roller_length`, `bore_diameter` (0 for no hole)
 

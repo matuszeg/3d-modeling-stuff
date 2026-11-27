@@ -35,12 +35,12 @@ trunk_width = 6;               // at the base of the trunk
 trunk_share = 0.45;            // how much of the height is bare trunk before it splits
 main_limbs = 5;                // limbs leaving the top of the trunk
 branch_levels = 5;             // how many times branches split: more = finer twigs
-root_count = 7;
+root_count = 0;                // 0 = no roots
 smallest_line = 1.1;           // narrowest twig, mm. Under ~1 mm won't print or press cleanly
 wiggle = 14;                   // how crooked the branches are, degrees
 
 /* [Swirl background] */
-swirls = true;
+swirls = false;                // background of little swirls
 swirl_size = 13;               // spacing between swirls
 swirl_line = 1.0;              // swirl line width
 swirl_gap = 1.2;               // clear space kept around the tree
@@ -119,7 +119,7 @@ function raw_tree(s) =
         th = 100 * trunk_share,
         top = [0, th],
         lq = rnd(s + 1, 20),
-        limbs = [for (i = [0:main_limbs - 1])
+        limbs = [for (i = [0:1:main_limbs - 1])
                     let(f = main_limbs == 1 ? 0.5 : i / (main_limbs - 1),
                         a = 140 - f * 100 + (lq[i] - 0.5) * 12,
                         // outer limbs leave a little lower on the trunk
@@ -127,7 +127,7 @@ function raw_tree(s) =
                         len = 26 + lq[i + 7] * 6 - abs(f - 0.5) * 6)
                     each limb([0, y0], a, len, tw * (0.62 - abs(f - 0.5) * 0.25),
                               branch_levels, (s * 101 + i * 37) % 1000003)],
-        roots = [for (i = [0:root_count - 1])
+        roots = [for (i = [0:1:root_count - 1])
                     let(f = root_count == 1 ? 0.5 : i / (root_count - 1),
                         // most roots run out sideways along the ground, a few go down
                         g = 2 * f - 1,
@@ -152,7 +152,7 @@ cx = (bb[0].x + bb[1].x) / 2;
 module tree2d() {
     // trunk flare where it meets the roots
     tw = trunk_width / 2;
-    hull() {
+    if (root_count > 0) hull() {
         translate([(0 - cx) * sx, (4 - bb[0].y) * sy]) circle(tw * 1.25);
         translate([(0 - cx) * sx, (16 - bb[0].y) * sy]) circle(tw * 0.9);
     }
